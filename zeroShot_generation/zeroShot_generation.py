@@ -12,10 +12,34 @@ parser.add_argument("--emotion", default="positive", choices=["positive", "neutr
 parser.add_argument("--temperature", type=float, default=0.8, help="Sampling temperature")
 parser.add_argument("--num_predict", type=int, default=500, help="Maximum number of tokens to predict")
 parser.add_argument("--top_p", type=float, default=0.9, help="Top-p sampling value")
+parser.add_argument("--top_k", type=int, default=40, help="Top-k sampling value")
 parser.add_argument("--repeat_penalty", type=float, default=1.1, help="Penalty for repeated tokens")
 parser.add_argument("--generations", type=int, default=50, help="Number of generations to produce")
 parser.add_argument("--model", type=str, default="llama3.2:1b", help="Model name to use with Ollama (e.g., llama3.2:1b)")
+parser.add_argument("--config", type=str, default=None, help="Path to YAML config file (overrides other args)")
 args = parser.parse_args()
+
+# Load config file if provided
+if args.config:
+    with open(args.config, 'r', encoding='utf-8') as f:
+        config = yaml.safe_load(f)
+        # Override args with config values
+        gen_config = config.get('generation', {})
+        zero_shot_config = gen_config.get('zero_shot', {})
+        default_config = gen_config.get('default', {})
+        
+        if 'generations' in zero_shot_config:
+            args.generations = zero_shot_config['generations']
+        if 'temperature' in default_config:
+            args.temperature = default_config['temperature']
+        if 'top_p' in default_config:
+            args.top_p = default_config['top_p']
+        if 'top_k' in default_config:
+            args.top_k = default_config['top_k']
+        if 'repeat_penalty' in default_config:
+            args.repeat_penalty = default_config['repeat_penalty']
+        if 'num_predict' in default_config:
+            args.num_predict = default_config['num_predict']
 
 with open("prompts.yaml", "r", encoding="utf-8") as f:
     prompt_data = yaml.safe_load(f)
@@ -41,6 +65,7 @@ for i in range(1, args.generations + 1):
                 "temperature": args.temperature,
                 "num_predict": args.num_predict,
                 "top_p": args.top_p,
+                "top_k": args.top_k,
                 "repeat_penalty": args.repeat_penalty,
             }
         )
