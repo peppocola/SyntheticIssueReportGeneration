@@ -12,7 +12,6 @@ import os
 from pathlib import Path
 from ollama import chat
 from pydantic import BaseModel
-import itertools
 
 
 class GeneratedText(BaseModel):

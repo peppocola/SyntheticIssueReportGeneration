@@ -23,6 +23,10 @@ from sklearn.metrics import accuracy_score, f1_score, precision_score, recall_sc
 import torch
 
 
+# Constants
+RANDOM_STATE = 42
+
+
 def load_and_sample_data(train_file, test_file=None, split_ratio=0.3, samples_per_class=100):
     """Load data and sample subset for training"""
     df_train = pd.read_csv(train_file, delimiter=';', quotechar='"')
@@ -35,13 +39,13 @@ def load_and_sample_data(train_file, test_file=None, split_ratio=0.3, samples_pe
             df_train,
             test_size=split_ratio,
             stratify=df_train['Polarity'],
-            random_state=42
+            random_state=RANDOM_STATE
         )
     
     # Sample subset per class for training if specified
     if samples_per_class > 0:
         df_train_sampled = df_train.groupby('Polarity', group_keys=False).apply(
-            lambda x: x.sample(n=min(len(x), samples_per_class), random_state=42)
+            lambda x: x.sample(n=min(len(x), samples_per_class), random_state=RANDOM_STATE)
         ).reset_index(drop=True)
         print(f"✅ Sampled {len(df_train_sampled)} training samples from {len(df_train)} total")
     else:

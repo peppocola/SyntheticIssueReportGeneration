@@ -9,7 +9,7 @@ import numpy as np
 from pathlib import Path
 import json
 import matplotlib
-matplotlib.use('Agg')  # Use non-interactive backend
+matplotlib.use('Agg')  # Use non-interactive backend for headless environments and automated testing
 import matplotlib.pyplot as plt
 
 

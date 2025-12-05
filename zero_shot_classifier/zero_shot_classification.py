@@ -11,7 +11,7 @@ import time
 import json
 import yaml
 from sklearn.model_selection import train_test_split
-from sklearn.metrics import accuracy_score, f1_score, precision_score, recall_score, classification_report
+from sklearn.metrics import accuracy_score, f1_score, precision_score, recall_score
 from transformers import pipeline
 from sentence_transformers import SentenceTransformer, util
 import torch
