@@ -228,7 +228,8 @@ main() {
     
     # Experiment 1: Traditional ML
     if should_run_experiment "traditional_ml"; then
-        log_info "\n=== Experiment 1: Traditional ML ==="
+        echo ""
+        log_info "=== Experiment 1: Traditional ML ==="
         create_venv "traditional_ml" "${REPO_ROOT}/traditional_ml/requirements.txt"
         run_experiment "traditional_ml" \
             "${REPO_ROOT}/traditional_ml/train_traditional_ml.py" \
@@ -237,7 +238,8 @@ main() {
     
     # Experiment 2: ModernBERT
     if should_run_experiment "modernbert"; then
-        log_info "\n=== Experiment 2: ModernBERT Fine-tuning ==="
+        echo ""
+        log_info "=== Experiment 2: ModernBERT Fine-tuning ==="
         create_venv "modernbert" "${REPO_ROOT}/modernbert_pipeline/requirements.txt"
         run_experiment "modernbert" \
             "${REPO_ROOT}/modernbert_pipeline/train_modernbert.py" \
@@ -246,7 +248,8 @@ main() {
     
     # Experiment 3: Zero-shot Classification
     if should_run_experiment "zero_shot"; then
-        log_info "\n=== Experiment 3: Zero-shot Classification ==="
+        echo ""
+        log_info "=== Experiment 3: Zero-shot Classification ==="
         create_venv "zero_shot" "${REPO_ROOT}/zero_shot_classifier/requirements.txt"
         run_experiment "zero_shot" \
             "${REPO_ROOT}/zero_shot_classifier/zero_shot_classification.py" \
@@ -255,7 +258,8 @@ main() {
     
     # Experiment 4: SetFit
     if should_run_experiment "setfit"; then
-        log_info "\n=== Experiment 4: SetFit ==="
+        echo ""
+        log_info "=== Experiment 4: SetFit ==="
         create_venv "setfit" "${REPO_ROOT}/SetFit/requirements.txt"
         run_experiment "setfit" \
             "${REPO_ROOT}/SetFit/train_model.py" \
@@ -264,7 +268,8 @@ main() {
     
     # Experiment 5: RoBERTa
     if should_run_experiment "roberta"; then
-        log_info "\n=== Experiment 5: RoBERTa ==="
+        echo ""
+        log_info "=== Experiment 5: RoBERTa ==="
         create_venv "roberta" "${REPO_ROOT}/RoBerta/requirements.txt"
         run_experiment "roberta" \
             "${REPO_ROOT}/RoBerta/train_and_predict.py" \
@@ -283,7 +288,8 @@ main() {
     
     # Experiment 6: Few-shot Generation
     if should_run_experiment "few_shot_generation" && [ "$OLLAMA_RUNNING" = true ]; then
-        log_info "\n=== Experiment 6: Few-shot Generation ==="
+        echo ""
+        log_info "=== Experiment 6: Few-shot Generation ==="
         create_venv "few_shot_generation" "${REPO_ROOT}/fewShot_generation/requirements_fewShot.txt"
         run_experiment "few_shot_generation" \
             "${REPO_ROOT}/fewShot_generation/fewShot_generation.py" \
@@ -292,7 +298,8 @@ main() {
     
     # Experiment 7: Zero-shot Generation
     if should_run_experiment "zero_shot_generation" && [ "$OLLAMA_RUNNING" = true ]; then
-        log_info "\n=== Experiment 7: Zero-shot Generation ==="
+        echo ""
+        log_info "=== Experiment 7: Zero-shot Generation ==="
         create_venv "zero_shot_generation" "${REPO_ROOT}/zeroShot_generation/requirements_zeroShot.txt"
         run_experiment "zero_shot_generation" \
             "${REPO_ROOT}/zeroShot_generation/zeroShot_generation.py" \
@@ -300,7 +307,8 @@ main() {
     fi
     
     # Summary
-    log_info "\n========================================"
+    echo ""
+    log_info "========================================"
     log_info "All experiments completed!"
     log_info "========================================"
     log_info "Results saved in: ${RESULTS_DIR}"

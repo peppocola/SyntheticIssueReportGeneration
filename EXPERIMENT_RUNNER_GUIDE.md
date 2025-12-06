@@ -303,14 +303,15 @@ For automated testing in CI/CD:
 
 ```yaml
 # Example GitHub Actions workflow
-- name: Run experiments
-  run: |
-    python run_all_experiments.py --experiments traditional_ml,zero_shot
-    
-- name: Upload results
-  uses: actions/upload-artifact@v2
-  with:
-    name: experiment-results
+steps:
+  - name: Run experiments
+    run: |
+      python run_all_experiments.py --experiments traditional_ml,zero_shot
+      
+  - name: Upload results
+    uses: actions/upload-artifact@v2
+    with:
+      name: experiment-results
     path: experiment_results/
 ```
 
