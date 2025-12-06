@@ -1,0 +1,108 @@
+# Unified Configuration for Thesis Experiments
+
+# Dataset configurations
+datasets:
+  stackoverflow:
+    train_file: "train_StackOverFlow.csv"
+    test_file: "test_StackOverFlow.csv"
+    text_column: "Text"
+    label_column: "Polarity"
+    labels: ["positive", "negative", "neutral"]
+  
+  github_emotion:
+    train_file: "datasets/github_emotion_train.csv"
+    test_file: "datasets/github_emotion_test.csv"
+    text_column: "text"
+    label_column: "emotion"
+    labels: ["joy", "sadness", "anger", "fear", "love", "surprise"]
+  
+  nasa_bugs:
+    train_file: "datasets/nasa_bugs_train.csv"
+    test_file: "datasets/nasa_bugs_test.csv"
+    text_column: "description"
+    label_column: "type"
+    labels: ["bug", "feature"]
+
+# Traditional ML configuration
+traditional_ml:
+  models: ["svm", "random_forest", "logistic_regression", "naive_bayes"]
+  feature_types: ["bow", "tfidf"]
+  ngram_ranges: ["1,1", "1,2", "1,3"]
+  max_features: 5000
+  split_ratio: 0.3
+
+# ModernBERT configuration
+modernbert:
+  model_name: "answerdotai/ModernBERT-base"
+  samples_per_class: 100
+  num_epochs: 3
+  batch_size: 8
+  learning_rate: 2.0e-05
+  max_length: 512
+  split_ratio: 0.3
+
+# Zero-shot classification configuration
+zero_shot:
+  methods: ["bart", "sentence-bert"]
+  bart_model: "facebook/bart-large-mnli"
+  sbert_model: "all-MiniLM-L6-v2"
+  split_ratio: 0.3
+
+# SetFit configuration
+setfit:
+  model_name: "all-mpnet-base-v2"
+  num_samples: 50
+  batch_size: 16
+  num_epochs: 4
+  split_ratio: 0.3
+
+# Generation hyperparameters
+generation:
+  models: ["llama3.2:1b"]
+  
+  # Temperature grid for search
+  temperature_grid: [0.5, 0.7, 0.8, 0.9, 1.0]
+  
+  # Top-p grid for search
+  top_p_grid: [0.8, 0.9, 0.95, 1.0]
+  
+  # Top-k grid for search
+  top_k_grid: [20, 40, 50, 100]
+  
+  # Default hyperparameters
+  default:
+    temperature: 0.8
+    top_p: 0.9
+    top_k: 40
+    repeat_penalty: 1.1
+    num_predict: 500
+  
+  # Few-shot specific
+  few_shot:
+    n_samples: 3
+    n_generazioni: 50
+    max_samples_per_class: 30
+  
+  # Zero-shot specific
+  zero_shot:
+    generations: 50
+
+# WandB logging configuration
+wandb:
+  project: "synthetic-issue-generation"
+  entity: null  # Set to your wandb username/team
+  enabled: true
+  log_interval: 10
+
+# Grid search configuration
+grid_search:
+  enabled: true
+  param_name: "temperature"  # or "top_p" or "top_k"
+  param_values: [0.5, 0.7, 0.8, 0.9, 1.0]
+  n_generations_per_config: 10
+  output_dir: "grid_search_results"
+
+# Testing configuration
+testing:
+  subset_size: 20  # Number of samples for quick tests
+  run_gpu_tests: false  # Set to true if GPU available

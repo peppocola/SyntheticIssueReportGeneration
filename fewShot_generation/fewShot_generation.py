@@ -14,9 +14,37 @@ parser.add_argument("--model", type=str, default="llama3.2:1b", help="Model name
 parser.add_argument("--temperature", type=float, default=0.8, help="Sampling temperature")
 parser.add_argument("--num_predict", type=int, default=500, help="Maximum number of tokens to predict")
 parser.add_argument("--top_p", type=float, default=0.9, help="Top-p sampling")
+parser.add_argument("--top_k", type=int, default=40, help="Top-k sampling")
 parser.add_argument("--repeat_penalty", type=float, default=1.1, help="Penalty for repeated tokens")
 parser.add_argument("--max_samples_per_class", type=int, default=30, help="Maximum number of samples to use per emotion class")
+parser.add_argument("--config", type=str, default=None, help="Path to YAML config file (overrides other args)")
 args = parser.parse_args()
+
+# Load config file if provided
+if args.config:
+    with open(args.config, 'r', encoding='utf-8') as f:
+        config = yaml.safe_load(f)
+        # Override args with config values
+        gen_config = config.get('generation', {})
+        few_shot_config = gen_config.get('few_shot', {})
+        default_config = gen_config.get('default', {})
+        
+        if 'n_samples' in few_shot_config:
+            args.n_samples = few_shot_config['n_samples']
+        if 'n_generazioni' in few_shot_config:
+            args.n_generazioni = few_shot_config['n_generazioni']
+        if 'max_samples_per_class' in few_shot_config:
+            args.max_samples_per_class = few_shot_config['max_samples_per_class']
+        if 'temperature' in default_config:
+            args.temperature = default_config['temperature']
+        if 'top_p' in default_config:
+            args.top_p = default_config['top_p']
+        if 'top_k' in default_config:
+            args.top_k = default_config['top_k']
+        if 'repeat_penalty' in default_config:
+            args.repeat_penalty = default_config['repeat_penalty']
+        if 'num_predict' in default_config:
+            args.num_predict = default_config['num_predict']
 
 initial_seed = 42
 random.seed(initial_seed)
@@ -118,6 +146,7 @@ for i, seed in enumerate(generated_seeds, start=1):
                 "temperature": args.temperature,
                 "num_predict": args.num_predict,
                 "top_p": args.top_p,
+                "top_k": args.top_k,
                 "repeat_penalty": args.repeat_penalty,
             }
         )
