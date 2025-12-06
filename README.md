@@ -17,6 +17,8 @@ Unified pipeline for thesis experiments on synthetic issue report generation wit
 ├── SetFit/                    # SetFit training
 ├── RoBerta/                   # RoBerta training
 ├── Result/                    # Result processing
+├── run_all_experiments.py     # 🆕 Automated experiment runner
+├── run_all_experiments.sh     # 🆕 Bash version of experiment runner
 ├── generation_grid_search.py  # Hyperparameter grid search
 ├── compare_models.py          # Model comparison script
 └── PIPELINE_DOCUMENTATION.md  # Detailed pipeline documentation
@@ -24,7 +26,38 @@ Unified pipeline for thesis experiments on synthetic issue report generation wit
 
 ## 🚀 Quick Start
 
-### 1. Install Dependencies
+### Option 1: Run All Experiments Automatically (Recommended)
+
+The easiest way to run all experiments is using the automated experiment runner:
+
+```bash
+# Install requests library (needed for Ollama check)
+pip install requests
+
+# Run all experiments with isolated virtual environments
+python run_all_experiments.py
+
+# Or run specific experiments
+python run_all_experiments.py --experiments traditional_ml,setfit,roberta
+
+# For generation experiments, make sure Ollama is running:
+ollama serve  # In a separate terminal
+```
+
+**Benefits:**
+- ✅ Automatic virtual environment creation for each experiment
+- ✅ Dependency isolation (no conflicts)
+- ✅ Sequential execution with detailed logging
+- ✅ Results organized in `experiment_results/`
+- ✅ Automatic Ollama detection for generation experiments
+
+See [EXPERIMENT_RUNNER_GUIDE.md](EXPERIMENT_RUNNER_GUIDE.md) for complete documentation.
+
+### Option 2: Manual Installation and Execution
+
+If you prefer to run experiments individually:
+
+#### 1. Install Dependencies
 
 ```bash
 # For traditional ML
@@ -40,7 +73,7 @@ pip install -r zero_shot_classifier/requirements.txt
 pip install -r fewShot_generation/requirements_fewShot.txt
 ```
 
-### 2. Run Baseline Experiments
+#### 2. Run Baseline Experiments
 
 ```bash
 # Traditional ML models

@@ -175,5 +175,9 @@ classification_report*.json
 fewShot_generation_Ollama_*.json
 zero_shot_generation_*.json
 
+# Experiment runner outputs
+.venvs/
+experiment_results/
+
 # Temporary files
 /tmp/
